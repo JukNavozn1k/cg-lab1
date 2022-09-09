@@ -19,7 +19,7 @@ def simple(x1,y1,x2,y2): # первый простой алгоритм
             y = y1
             xs = min(x1,x2)
             xe = max(x1,x2)
-            for x in range(xs,xe):
+            for x in range(x1,x2+1):
                 draw_dot(x,round(y))
                 y = y + m
                 
@@ -82,7 +82,7 @@ def callback(event): # метод отслеживания нажатий
     if counter >= 1: 
         print(coords)
       #  canvas.create_line(coords[0][0],coords[0][1],coords[1][0],coords[1][1]) # сделать тут свой метод отрисовки
-        mode[1](coords[0][0],coords[0][1],coords[1][0],coords[1][1])
+        mode[0](coords[0][0],coords[0][1],coords[1][0],coords[1][1]) # P.S сделать так чтобы пользователь мог выбирать режим посредством тыкания кнопок
         coords = []
         counter = 0
         
