@@ -4,7 +4,7 @@ import tkinter
 root = Tk()
 counter = 0 # переменная, в которой хранится номер клика мыши
 coords = [] # координаты точек
-mode = [] # массив функциий (алгоритмов по которым будет делаться отрисовка)
+
 def sign(x):
     if x >= 0: return 1
     return -1
@@ -51,17 +51,38 @@ def BresenhamV8(x1,y1,x2,y2): # восьмикратная развертка (�
             x = x + s1
         e = e + 2*dy
     draw_dot(x,y)
+def BresenhamV4(x1,y1,x2,y2): # четырёхсвязная развёртка (третий алгоритм)
+    l = None
+    x,y,dx,dy,s1,s2 = x1,y1,abs(x2-x1),abs(y2-y1),sign(x2-x1),sign(y2-y1)
+    if dy<dx:
+        l = False
+    else:
+        l = True
+        dx,dy = dy,dx
+    e = 2*dy-dx
+    for i in range(dx+dy):
+        draw_dot(x,y)
+        if e < 0 :
+            if l: y = y + s2
+            else: x + s1
+            e = e+2*dy
+        else: 
+            if l: x = x + s1
+            else: y = y + s2
+            e = e-2*dx
+    draw_dot(x,y)
 
-
+        
 
     pass
+
 def callback(event): # метод отслеживания нажатий
     global counter,coords
     coords.append([int(event.x),int(event.y)])
     if counter >= 1: 
         print(coords)
       #  canvas.create_line(coords[0][0],coords[0][1],coords[1][0],coords[1][1]) # сделать тут свой метод отрисовки
-        BresenhamV8(coords[0][0],coords[0][1],coords[1][0],coords[1][1])
+        mode[1](coords[0][0],coords[0][1],coords[1][0],coords[1][1])
         coords = []
         counter = 0
         
@@ -74,7 +95,7 @@ def clear(): # очистить холст
 
 canvas= Canvas(root, width=800, height=600)
 clsBtn = tkinter.Button(root,text='Очистить холст',command=clear)
-
+mode = [simple,BresenhamV8,BresenhamV4] # массив функциий (алгоритмов по которым будет делаться отрисовка)
 clsBtn.pack()
 clsBtn.place(x=400,y=560)
 canvas.bind("<Button-1>", callback)
