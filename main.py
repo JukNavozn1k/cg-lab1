@@ -83,28 +83,30 @@ def BresenhamV4(x1,y1,x2,y2): # четырёхсвязная развёртка 
 
 def Circle(x1,y1,x2,y2): # Чётвёртная функция (окружность)
     R = round(((x2-x1)**2 + (y2-y1)**2)**0.5)
-    for x in range(0,R):
+    for x in range(0,R+1):
         y = y1 +  round((R**2 - x**2)**0.5)
         draw_dot(x + x1,y)
-    for x in range(0,R):
+    for x in range(0,R+1):
         y = y1 -  round((R**2 - x**2)**0.5)
         draw_dot(x1-x,y)
-    for x in range(0,R):
+    for x in range(0,R+1):
         y = y1 +  round((R**2 - x**2)**0.5)
         draw_dot(x1-x,y)
-    for x in range(0,R):
+    for x in range(0,R+1):
         y = y1 -  round((R**2 - x**2)**0.5)
         draw_dot(x1+x,y)
         
     pass
 
 
-
+# ДОООДЕЛАТЬ!!!!!!!!!!!!1
 def BresenhamСircle(x1,y1,x2,y2): # Пятая функция (окружность) (работает криво)
     rad = ((x2-x1)**2 + (y2-y1)**2)**0.5 # радиус окружности
-    x,y = 0,round(rad)
+    x,y = x1,y1+round(rad)
     e = 3-2*y
+   
     while x < y:
+
         draw_dot(x,y)
         draw_dot(y,x)
         draw_dot(y,-x)
@@ -135,9 +137,10 @@ def callback(event): # метод отслеживания нажатий
     global counter,coords
     coords.append([int(event.x),int(event.y)])
     if counter >= 1: 
+        print('Current click: ',counter + 1)
         print(coords)
       #  canvas.create_line(coords[0][0],coords[0][1],coords[1][0],coords[1][1]) # сделать тут свой метод отрисовки
-        mode[3](coords[0][0],coords[0][1],coords[1][0],coords[1][1]) # P.S сделать так чтобы пользователь мог выбирать режим посредством тыкания кнопок
+        mode[4](coords[0][0],coords[0][1],coords[1][0],coords[1][1]) # P.S сделать так чтобы пользователь мог выбирать режим посредством тыкания кнопок
         coords = []
         counter = 0
         
