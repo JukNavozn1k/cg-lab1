@@ -5,6 +5,9 @@ root = Tk()
 counter = 0 # переменная, в которой хранится номер клика мыши
 coords = [] # координаты точек
 mode = [] # массив функциий (алгоритмов по которым будет делаться отрисовка)
+def sign(x):
+    if x >= 0: return 1
+    return -1
 def draw_dot(x,y,col='black'): # в tkinter нет возможности отрисовать точку, а потому рисуем очень маленький круг
     x1,y1 = x-1,y-1
     x2,y2 = x+1,y+1
@@ -24,6 +27,32 @@ def simple(x1,y1,x2,y2): # первый простой алгоритм
         draw_dot(x1,y1)
     elif y1 != y2:
         print('Error : vertical!')
+    pass
+def BresenhamV8(x1,y1,x2,y2): # восьмикратная развертка (второй алгоритм)
+    l = None 
+    x,y,dx,dy = x1,y1,abs(x2-x1),abs(y2-y1)
+    s1,s2 = sign(x2-x1),sign(y2-y1)
+    if dy > dx:
+        dx,dy = dy,dx
+        l = True
+    else: l = False
+    e = 2*dy-dx
+    for i in range(1,dx+1):
+        draw_dot(x,y)
+        while e >= 0:
+            if l:
+                x = x + s1
+            else:
+                y = y + s2
+            e = e - 2*dx
+        if l:
+            y = y + s2
+        else: 
+            x = x + s1
+        e = e + 2*dy
+    draw_dot(x,y)
+
+
 
     pass
 def callback(event): # метод отслеживания нажатий
@@ -32,7 +61,7 @@ def callback(event): # метод отслеживания нажатий
     if counter >= 1: 
         print(coords)
       #  canvas.create_line(coords[0][0],coords[0][1],coords[1][0],coords[1][1]) # сделать тут свой метод отрисовки
-        simple(coords[0][0],coords[0][1],coords[1][0],coords[1][1])
+        BresenhamV8(coords[0][0],coords[0][1],coords[1][0],coords[1][1])
         coords = []
         counter = 0
         
