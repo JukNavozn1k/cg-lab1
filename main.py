@@ -1,7 +1,13 @@
 from hashlib import shake_128
 from tkinter import *
 import tkinter
-
+''''
+Те, кто читает, и не понимает как поставить режим отрисовки
+В функции callback переключите циферку, заключённую в квадратные скобки у mode [0-4]
+0 - Простой алгоритм 
+1 - Восьмикратная развертка (второй алгоритм)
+2 - Четырёхсвязная развёртка (третий алгоритм)
+'''
 root = Tk()
 counter = 0 # переменная, в которой хранится номер клика мыши
 coords = [] # координаты точек
@@ -73,13 +79,65 @@ def BresenhamV4(x1,y1,x2,y2): # четырёхсвязная развёртка 
     draw_dot(x,y)
     pass
 
+
+
+def Circle(x1,y1,x2,y2): # Чётвёртная функция (окружность)
+    R = round(((x2-x1)**2 + (y2-y1)**2)**0.5)
+    for x in range(0,R):
+        y = y1 +  round((R**2 - x**2)**0.5)
+        draw_dot(x + x1,y)
+    for x in range(0,R):
+        y = y1 -  round((R**2 - x**2)**0.5)
+        draw_dot(x1-x,y)
+    for x in range(0,R):
+        y = y1 +  round((R**2 - x**2)**0.5)
+        draw_dot(x1-x,y)
+    for x in range(0,R):
+        y = y1 -  round((R**2 - x**2)**0.5)
+        draw_dot(x1+x,y)
+        
+    pass
+
+
+
+def BresenhamСircle(x1,y1,x2,y2): # Пятая функция (окружность) (работает криво)
+    rad = ((x2-x1)**2 + (y2-y1)**2)**0.5 # радиус окружности
+    x,y = 0,round(rad)
+    e = 3-2*y
+    while x < y:
+        draw_dot(x,y)
+        draw_dot(y,x)
+        draw_dot(y,-x)
+        draw_dot(x,-y)
+        draw_dot(-x,-y)
+        draw_dot(-y,-x)
+        draw_dot(-y,x)
+        draw_dot(-x,y)
+        if e < 0:e = e+4*x+6
+        else: 
+            e = e+4*(x-y)+ 10
+            y = y - 1
+        x = x + 1 
+    if x == y:
+        draw_dot(x,y)
+        draw_dot(y,x)
+        draw_dot(y,-x)
+        draw_dot(x,-y)
+        draw_dot(-x,-y)
+        draw_dot(-y,-x)
+        draw_dot(-y,x)
+        draw_dot(-x,y)
+    pass
+
+
+
 def callback(event): # метод отслеживания нажатий
     global counter,coords
     coords.append([int(event.x),int(event.y)])
     if counter >= 1: 
         print(coords)
       #  canvas.create_line(coords[0][0],coords[0][1],coords[1][0],coords[1][1]) # сделать тут свой метод отрисовки
-        mode[2](coords[0][0],coords[0][1],coords[1][0],coords[1][1]) # P.S сделать так чтобы пользователь мог выбирать режим посредством тыкания кнопок
+        mode[3](coords[0][0],coords[0][1],coords[1][0],coords[1][1]) # P.S сделать так чтобы пользователь мог выбирать режим посредством тыкания кнопок
         coords = []
         counter = 0
         
@@ -92,7 +150,7 @@ def clear(): # очистить холст
 
 canvas= Canvas(root, width=800, height=600)
 clsBtn = tkinter.Button(root,text='Очистить холст',command=clear)
-mode = [simple,BresenhamV8,BresenhamV4] # массив функциий (алгоритмов по которым будет делаться отрисовка)
+mode = [simple,BresenhamV8,BresenhamV4,Circle,BresenhamСircle] # массив функциий (алгоритмов по которым будет делаться отрисовка)
 clsBtn.pack()
 clsBtn.place(x=400,y=560)
 canvas.bind("<Button-1>", callback)
