@@ -1,3 +1,4 @@
+from hashlib import shake_128
 from tkinter import *
 import tkinter
 
@@ -52,28 +53,24 @@ def BresenhamV8(x1,y1,x2,y2): # восьмикратная развертка (�
         e = e + 2*dy
     draw_dot(x,y)
 def BresenhamV4(x1,y1,x2,y2): # четырёхсвязная развёртка (третий алгоритм)
-    l = None
     x,y,dx,dy,s1,s2 = x1,y1,abs(x2-x1),abs(y2-y1),sign(x2-x1),sign(y2-y1)
-    if dy<dx:
-        l = False
+    l = None
+    if dy<dx: l = False
     else:
         l = True
         dx,dy = dy,dx
     e = 2*dy-dx
-    for i in range(dx+dy):
+    for i in range(1,dx+dy):
         draw_dot(x,y)
-        if e < 0 :
+        if e < 0:
             if l: y = y + s2
-            else: x + s1
+            else: x = x + s1
             e = e+2*dy
-        else: 
-            if l: x = x + s1
+        else:
+            if l : x = x + s1
             else: y = y + s2
-            e = e-2*dx
+            e = e - 2*dx
     draw_dot(x,y)
-
-        
-
     pass
 
 def callback(event): # метод отслеживания нажатий
@@ -82,7 +79,7 @@ def callback(event): # метод отслеживания нажатий
     if counter >= 1: 
         print(coords)
       #  canvas.create_line(coords[0][0],coords[0][1],coords[1][0],coords[1][1]) # сделать тут свой метод отрисовки
-        mode[0](coords[0][0],coords[0][1],coords[1][0],coords[1][1]) # P.S сделать так чтобы пользователь мог выбирать режим посредством тыкания кнопок
+        mode[2](coords[0][0],coords[0][1],coords[1][0],coords[1][1]) # P.S сделать так чтобы пользователь мог выбирать режим посредством тыкания кнопок
         coords = []
         counter = 0
         
