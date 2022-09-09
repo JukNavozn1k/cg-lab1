@@ -13,20 +13,20 @@ def draw_dot(x,y,col='black'): # в tkinter нет возможности отр
     x2,y2 = x+1,y+1
     canvas.create_oval(x1, y1, x2, y2,fill=col,width=1,outline=col)
 def simple(x1,y1,x2,y2): # первый простой алгоритм
-    if x1 != x2: 
-          
-            m = (y2-y1)/(x2-x1)
-            y = y1
-            xs = min(x1,x2)
-            xe = max(x1,x2)
-            for x in range(x1,x2+1):
-                draw_dot(x,round(y))
-                y = y + m
-                
-    elif y1 == y2:
-        draw_dot(x1,y1)
-    elif y1 != y2:
-        print('Error : vertical!')
+    if x1 != x2:
+        m = (y2-y1)/(x2-x1)
+        y = y1
+        for x in range(x1,x2):
+            draw_dot(x,round(y))
+            y = y + m
+        y = y2
+        for x in range(x2,x1):
+            draw_dot(x,round(y))
+            y = y + m
+    else:
+        if y1 == y2:
+            draw_dot(x,y)
+        else: print('Error: vertical')
     pass
 def BresenhamV8(x1,y1,x2,y2): # восьмикратная развертка (второй алгоритм)
     l = None 
