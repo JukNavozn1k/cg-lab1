@@ -1,6 +1,6 @@
 from hashlib import shake_128
 from tkinter import *
-
+import tkinter
 
 root = Tk()
 counter = 0 # переменная, в которой хранится номер клика мыши
