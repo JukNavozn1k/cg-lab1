@@ -21,15 +21,17 @@ def draw_dot(x,y,col='black'): # в tkinter нет возможности отр
     canvas.create_oval(x1, y1, x2, y2,fill=col,width=1,outline=col)
 def simple(x1,y1,x2,y2): # первый простой алгоритм
     if x1 != x2:
-        m = (y2-y1)/(x2-x1)
+        
+        m = (y2-y1)/(x2-x1) # может выходить за пределы [-1;1] 
+        
+        if x1 > x2: 
+            x1,x2 = x2,x1
+            y1,y2 = y2,y1
         y = y1
         for x in range(x1,x2):
             draw_dot(x,round(y))
             y = y + m
-        y = y2
-        for x in range(x2,x1):
-            draw_dot(x,round(y))
-            y = y + m
+       
     else:
         if y1 == y2:
             draw_dot(x,y)
@@ -140,7 +142,7 @@ def callback(event): # метод отслеживания нажатий
         print('Current click: ',counter + 1)
         print(coords)
       #  canvas.create_line(coords[0][0],coords[0][1],coords[1][0],coords[1][1]) # сделать тут свой метод отрисовки
-        mode[4](coords[0][0],coords[0][1],coords[1][0],coords[1][1]) # P.S сделать так чтобы пользователь мог выбирать режим посредством тыкания кнопок
+        mode[0](coords[0][0],coords[0][1],coords[1][0],coords[1][1]) # P.S сделать так чтобы пользователь мог выбирать режим посредством тыкания кнопок
         coords = []
         counter = 0
         
