@@ -1,13 +1,7 @@
 from hashlib import shake_128
 from tkinter import *
-import tkinter
-''''
-Те, кто читает, и не понимает как поставить режим отрисовки
-В функции callback переключите циферку, заключённую в квадратные скобки у mode [0-4]
-0 - Простой алгоритм 
-1 - Восьмикратная развертка (второй алгоритм)
-2 - Четырёхсвязная развёртка (третий алгоритм)
-'''
+
+
 root = Tk()
 counter = 0 # переменная, в которой хранится номер клика мыши
 coords = [] # координаты точек
@@ -136,13 +130,14 @@ def BresenhamСircle(x1,y1,x2,y2): # Пятая функция (окружнос
 
 
 def callback(event): # метод отслеживания нажатий
-    global counter,coords
+    global counter,coords,var
     coords.append([int(event.x),int(event.y)])
     if counter >= 1: 
         print('Current click: ',counter + 1)
         print(coords)
+     
       #  canvas.create_line(coords[0][0],coords[0][1],coords[1][0],coords[1][1]) # сделать тут свой метод отрисовки
-        mode[0](coords[0][0],coords[0][1],coords[1][0],coords[1][1]) # P.S сделать так чтобы пользователь мог выбирать режим посредством тыкания кнопок
+        mode[var.get()](coords[0][0],coords[0][1],coords[1][0],coords[1][1]) # P.S сделать так чтобы пользователь мог выбирать режим посредством тыкания кнопок
         coords = []
         counter = 0
         
@@ -154,10 +149,17 @@ def clear(): # очистить холст
     canvas.delete("all") 
 
 canvas= Canvas(root, width=800, height=600)
+mode = {'simple':simple,'BresenhamV8': BresenhamV8,'BresenhamV4': BresenhamV4,'Circle' : Circle,'BresenhamСircle': BresenhamСircle} # массив функциий (алгоритмов по которым будет делаться отрисовка)
+# радиокнопки
+var = StringVar()
+var.set('BresenhamV8')
+for key in mode:
+    rbtn = Radiobutton(text=key,variable=var,value=key)
+    rbtn.pack()
+# очистка холста
 clsBtn = tkinter.Button(root,text='Очистить холст',command=clear)
-mode = [simple,BresenhamV8,BresenhamV4,Circle,BresenhamСircle] # массив функциий (алгоритмов по которым будет делаться отрисовка)
 clsBtn.pack()
-clsBtn.place(x=400,y=560)
+
 canvas.bind("<Button-1>", callback)
 canvas.pack()
 root.mainloop()
