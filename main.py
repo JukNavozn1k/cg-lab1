@@ -14,23 +14,29 @@ def draw_dot(x,y,col='black'): # в tkinter нет возможности отр
     x2,y2 = x+1,y+1
     canvas.create_oval(x1, y1, x2, y2,fill=col,width=1,outline=col)
 
-def simple(x1,y1,x2,y2): # первый простой алгоритм
-    if x1 != x2:
-        
+def Simple(x1,y1,x2,y2): # первый простой алгоритм
+
         m = (y2-y1)/(x2-x1) # может выходить за пределы [-1;1] 
-        
-        if x1 > x2: 
-            x1,x2 = x2,x1
-            y1,y2 = y2,y1
-        y = y1
-        for x in range(x1,x2):
-            draw_dot(x,round(y))
-            y = y + m
-       
-    else:
+        if abs(m) > 1:
+            if y1 > y2: 
+                x1,x2 = x2,x1
+                y1,y2 = y2,y1
+            x = x1
+            for y in range(y1,y2):
+                draw_dot(round(x),y)
+                x = x + (1/m)
+        # случай abs(m) > 1, тогда двигаемся по y
+        else:
+            if x1 > x2: 
+                x1,x2 = x2,x1
+                y1,y2 = y2,y1
+            y = y1
+            for x in range(x1,x2):
+                draw_dot(x,round(y))
+                y = y + m
         if y1 == y2:
             draw_dot(x,y)
-        else: print('Error: vertical')
+     
 
 def BresenhamV8(x1,y1,x2,y2): # восьмикратная развертка (второй алгоритм)
     l = None 
@@ -147,7 +153,7 @@ if __name__ == "__main__":
     # Инициализация важных переменных
     counter = 0 # переменная, в которой хранится номер клика мыши
     coords = [] # координаты точек
-    mode = {'simple':simple,'BresenhamV8': BresenhamV8,'BresenhamV4': BresenhamV4,'Circle' : Circle,'BresenhamСircle': BresenhamСircle} # массив функциий (алгоритмов по которым будет делаться отрисовка)
+    mode = {'Simple':Simple,'BresenhamV8': BresenhamV8,'BresenhamV4': BresenhamV4,'Circle' : Circle,'BresenhamСircle': BresenhamСircle} # массив функциий (алгоритмов по которым будет делаться отрисовка)
 
     # Инициализация и настройка холста
     canvas= Canvas(root, width=800, height=600,bg='white')
@@ -155,7 +161,7 @@ if __name__ == "__main__":
     canvas.pack()
     # Инициализация и настройка радиокнопок (для выбора режима)
     var = StringVar()
-    var.set('Circle')
+    var.set('Simple')
     for key in mode:
         rbtn = Radiobutton(text=key,variable=var,value=key)
         rbtn.pack()
