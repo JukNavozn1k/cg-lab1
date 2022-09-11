@@ -15,27 +15,31 @@ def draw_dot(x,y,col='black'): # в tkinter нет возможности отр
     canvas.create_oval(x1, y1, x2, y2,fill=col,width=1,outline=col)
 
 def Simple(x1,y1,x2,y2): # первый простой алгоритм
-
-        m = (y2-y1)/(x2-x1) # может выходить за пределы [-1;1] 
-        if abs(m) > 1:
-            if y1 > y2: 
-                x1,x2 = x2,x1
-                y1,y2 = y2,y1
-            x = x1
-            for y in range(y1,y2):
-                draw_dot(round(x),y)
-                x = x + (1/m)
-        # случай abs(m) > 1, тогда двигаемся по y
-        else:
-            if x1 > x2: 
-                x1,x2 = x2,x1
-                y1,y2 = y2,y1
-            y = y1
-            for x in range(x1,x2):
-                draw_dot(x,round(y))
-                y = y + m
+    if x1 != x2:
+            m = (y2-y1)/(x2-x1)  
+            
+            if abs(m) > 1:
+                if y1 > y2: 
+                    x1,x2 = x2,x1
+                    y1,y2 = y2,y1
+                x = x1
+                for y in range(y1,y2):
+                    draw_dot(round(x),y)
+                    x = x + (1/m)
+            # случай abs(m) > 1, тогда двигаемся по y
+            else:
+                if x1 > x2: 
+                    x1,x2 = x2,x1
+                    y1,y2 = y2,y1
+                y = y1
+                for x in range(x1,x2):
+                    draw_dot(x,round(y))
+                    y = y + m
+    else:
         if y1 == y2:
             draw_dot(x,y)
+        else: print('Error! Vertical')
+        
      
 
 def BresenhamV8(x1,y1,x2,y2): # восьмикратная развертка (второй алгоритм)
