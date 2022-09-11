@@ -79,19 +79,18 @@ def BresenhamV4(x1,y1,x2,y2): # четырёхсвязная развёртка 
 
 def Circle(x1,y1,x2,y2): # Чётвёртная функция (окружность)
     R = round(((x2-x1)**2 + (y2-y1)**2)**0.5)
-    for x in range(0,R+1):
-        y = y1 +  round((R**2 - x**2)**0.5)
-        draw_dot(x + x1,y)
-    for x in range(0,R+1):
-        y = y1 -  round((R**2 - x**2)**0.5)
-        draw_dot(x1-x,y)
-    for x in range(0,R+1):
-        y = y1 +  round((R**2 - x**2)**0.5)
-        draw_dot(x1-x,y)
-    for x in range(0,R+1):
-        y = y1 -  round((R**2 - x**2)**0.5)
-        draw_dot(x1+x,y)
-        
+    octand = round(R/(2**0.5))
+    for x in range(0,octand+1):
+        y =  round((R**2 - x**2)**0.5)
+        draw_dot(x1+x,y1+y)
+        draw_dot(x1+y,y1+x)
+        draw_dot(x1+y,y1-x)
+        draw_dot(x1+x,y1-y)
+        draw_dot(x1-x,y1-y)
+        draw_dot(x1-y,y1-x)
+        draw_dot(x1-y,y1+x)
+        draw_dot(x1-x,y1+y)
+    
     pass
 
 
@@ -152,7 +151,7 @@ canvas= Canvas(root, width=800, height=600,bg='white')
 mode = {'simple':simple,'BresenhamV8': BresenhamV8,'BresenhamV4': BresenhamV4,'Circle' : Circle,'BresenhamСircle': BresenhamСircle} # массив функциий (алгоритмов по которым будет делаться отрисовка)
 # радиокнопки
 var = StringVar()
-var.set('BresenhamСircle')
+var.set('Circle')
 for key in mode:
     rbtn = Radiobutton(text=key,variable=var,value=key)
     rbtn.pack()
