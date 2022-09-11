@@ -117,14 +117,14 @@ def BresenhamСircle(x1,y1,x2,y2): # Пятая функция (окружнос
             y = y - 1
         x = x + 1 
     if x == y:
-        draw_dot(x,y)
-        draw_dot(y,x)
-        draw_dot(y,-x)
-        draw_dot(x,-y)
-        draw_dot(-x,-y)
-        draw_dot(-y,-x)
-        draw_dot(-y,x)
-        draw_dot(-x,y)
+        draw_dot(x1+x,y1+y)
+        draw_dot(x1+y,y1+x)
+        draw_dot(x1+y,y1-x)
+        draw_dot(x1+x,y1-y)
+        draw_dot(x1-x,y1-y)
+        draw_dot(x1-y,y1-x)
+        draw_dot(x1-y,y1+x)
+        draw_dot(x1-x,y1+y)
     pass
 
 
