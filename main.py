@@ -1,18 +1,19 @@
 from hashlib import shake_128
+
 from tkinter import *
 import tkinter
 
-root = Tk()
-counter = 0 # переменная, в которой хранится номер клика мыши
-coords = [] # координаты точек
 
 def sign(x):
     if x >= 0: return 1
     return -1
+
+# ~ Алгоритмы отрисовки
 def draw_dot(x,y,col='black'): # в tkinter нет возможности отрисовать точку, а потому рисуем очень маленький круг
     x1,y1 = x-1,y-1
     x2,y2 = x+1,y+1
     canvas.create_oval(x1, y1, x2, y2,fill=col,width=1,outline=col)
+
 def simple(x1,y1,x2,y2): # первый простой алгоритм
     if x1 != x2:
         
@@ -30,7 +31,7 @@ def simple(x1,y1,x2,y2): # первый простой алгоритм
         if y1 == y2:
             draw_dot(x,y)
         else: print('Error: vertical')
-    pass
+
 def BresenhamV8(x1,y1,x2,y2): # восьмикратная развертка (второй алгоритм)
     l = None 
     x,y,dx,dy = x1,y1,abs(x2-x1),abs(y2-y1)
@@ -54,6 +55,7 @@ def BresenhamV8(x1,y1,x2,y2): # восьмикратная развертка (�
             x = x + s1
         e = e + 2*dy
     draw_dot(x,y)
+
 def BresenhamV4(x1,y1,x2,y2): # четырёхсвязная развёртка (третий алгоритм)
     x,y,dx,dy,s1,s2 = x1,y1,abs(x2-x1),abs(y2-y1),sign(x2-x1),sign(y2-y1)
     l = None
@@ -73,9 +75,6 @@ def BresenhamV4(x1,y1,x2,y2): # четырёхсвязная развёртка 
             else: y = y + s2
             e = e - 2*dx
     draw_dot(x,y)
-    pass
-
-
 
 def Circle(x1,y1,x2,y2): # Чётвёртная функция (окружность)
     R = round(((x2-x1)**2 + (y2-y1)**2)**0.5)
@@ -91,17 +90,11 @@ def Circle(x1,y1,x2,y2): # Чётвёртная функция (окружнос
         draw_dot(x1-y,y1+x)
         draw_dot(x1-x,y1+y)
     
-    pass
-
-
-# ДОООДЕЛАТЬ!!!!!!!!!!!!1
-def BresenhamСircle(x1,y1,x2,y2): # Пятая функция (окружность) (работает криво)
+def BresenhamСircle(x1,y1,x2,y2): # Пятая функция (окружность) 
     rad = ((x2-x1)**2 + (y2-y1)**2)**0.5 # радиус окружности
     x,y = 0,round(rad)
     e = 3-2*y
-   
     while x < y:
-
         draw_dot(x1+x,y1+y)
         draw_dot(x1+y,y1+x)
         draw_dot(x1+y,y1-x)
@@ -124,10 +117,9 @@ def BresenhamСircle(x1,y1,x2,y2): # Пятая функция (окружнос
         draw_dot(x1-y,y1-x)
         draw_dot(x1-y,y1+x)
         draw_dot(x1-x,y1+y)
-    pass
+#  Алгоритмы отрисовки ~
 
-
-
+# ~UI Функционал
 def callback(event): # метод отслеживания нажатий
     global counter,coords,var
     coords.append([int(event.x),int(event.y)])
@@ -146,19 +138,35 @@ def callback(event): # метод отслеживания нажатий
     
 def clear(): # очистить холст
     canvas.delete("all") 
+# UI Функционал~
 
-canvas= Canvas(root, width=800, height=600,bg='white')
-mode = {'simple':simple,'BresenhamV8': BresenhamV8,'BresenhamV4': BresenhamV4,'Circle' : Circle,'BresenhamСircle': BresenhamСircle} # массив функциий (алгоритмов по которым будет делаться отрисовка)
-# радиокнопки
-var = StringVar()
-var.set('Circle')
-for key in mode:
-    rbtn = Radiobutton(text=key,variable=var,value=key)
-    rbtn.pack()
-# очистка холста
-clsBtn = tkinter.Button(root,text='Очистить холст',command=clear)
-clsBtn.pack()
+if __name__ == "__main__":
+    # Инициализация и базовая настройки окна
+    root = Tk()
+    root.title('Лабораторная работа № 1 Реализация алгоритмов растровой развертки линий')
+    root.minsize(800,600)
 
-canvas.bind("<Button-1>", callback)
-canvas.pack()
-root.mainloop()
+    # Инициализация важных переменных
+    counter = 0 # переменная, в которой хранится номер клика мыши
+    coords = [] # координаты точек
+    mode = {'simple':simple,'BresenhamV8': BresenhamV8,'BresenhamV4': BresenhamV4,'Circle' : Circle,'BresenhamСircle': BresenhamСircle} # массив функциий (алгоритмов по которым будет делаться отрисовка)
+
+    # Инициализация и настройка холста
+    canvas= Canvas(root, width=800, height=600,bg='white')
+    canvas.bind("<Button-1>", callback)
+    canvas.pack()
+    # Инициализация и настройка радиокнопок (для выбора режима)
+    var = StringVar()
+    var.set('Circle')
+    for key in mode:
+        rbtn = Radiobutton(text=key,variable=var,value=key)
+        rbtn.pack()
+
+    # Кнопка очистки очистка холста
+    clsBtn = tkinter.Button(root,text='Очистить холст',command=clear)
+    clsBtn.pack()
+
+
+
+
+    root.mainloop()
