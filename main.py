@@ -98,19 +98,19 @@ def Circle(x1,y1,x2,y2): # Чётвёртная функция (окружнос
 # ДОООДЕЛАТЬ!!!!!!!!!!!!1
 def BresenhamСircle(x1,y1,x2,y2): # Пятая функция (окружность) (работает криво)
     rad = ((x2-x1)**2 + (y2-y1)**2)**0.5 # радиус окружности
-    x,y = x1,y1+round(rad)
+    x,y = 0,round(rad)
     e = 3-2*y
    
     while x < y:
 
-        draw_dot(x,y)
-        draw_dot(y,x)
-        draw_dot(y,-x)
-        draw_dot(x,-y)
-        draw_dot(-x,-y)
-        draw_dot(-y,-x)
-        draw_dot(-y,x)
-        draw_dot(-x,y)
+        draw_dot(x1+x,y1+y)
+        draw_dot(x1+y,y1+x)
+        draw_dot(x1+y,y1-x)
+        draw_dot(x1+x,y1-y)
+        draw_dot(x1-x,y1-y)
+        draw_dot(x1-y,y1-x)
+        draw_dot(x1-y,y1+x)
+        draw_dot(x1-x,y1+y)
         if e < 0:e = e+4*x+6
         else: 
             e = e+4*(x-y)+ 10
@@ -148,11 +148,11 @@ def callback(event): # метод отслеживания нажатий
 def clear(): # очистить холст
     canvas.delete("all") 
 
-canvas= Canvas(root, width=800, height=600)
+canvas= Canvas(root, width=800, height=600,bg='white')
 mode = {'simple':simple,'BresenhamV8': BresenhamV8,'BresenhamV4': BresenhamV4,'Circle' : Circle,'BresenhamСircle': BresenhamСircle} # массив функциий (алгоритмов по которым будет делаться отрисовка)
 # радиокнопки
 var = StringVar()
-var.set('BresenhamV8')
+var.set('BresenhamСircle')
 for key in mode:
     rbtn = Radiobutton(text=key,variable=var,value=key)
     rbtn.pack()
