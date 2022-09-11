@@ -126,8 +126,6 @@ def callback(event): # метод отслеживания нажатий
     if counter >= 1: 
         print('Current click: ',counter + 1)
         print(coords)
-     
-      #  canvas.create_line(coords[0][0],coords[0][1],coords[1][0],coords[1][1]) # сделать тут свой метод отрисовки
         mode[var.get()](coords[0][0],coords[0][1],coords[1][0],coords[1][1]) # P.S сделать так чтобы пользователь мог выбирать режим посредством тыкания кнопок
         coords = []
         counter = 0
@@ -144,7 +142,7 @@ if __name__ == "__main__":
     # Инициализация и базовая настройки окна
     root = Tk()
     root.title('Лабораторная работа № 1 Реализация алгоритмов растровой развертки линий')
-    root.minsize(800,600)
+    root.resizable(0, 0)
 
     # Инициализация важных переменных
     counter = 0 # переменная, в которой хранится номер клика мыши
@@ -165,8 +163,4 @@ if __name__ == "__main__":
     # Кнопка очистки очистка холста
     clsBtn = tkinter.Button(root,text='Очистить холст',command=clear)
     clsBtn.pack()
-
-
-
-
     root.mainloop()
